@@ -1,6 +1,7 @@
 const grpc = require("@grpc/grpc-js");
 const protoLoader = require("@grpc/proto-loader");
-var PROTO_PATH = "../protos/weather_forecasting_service.proto";
+
+var PROTO_PATH = __dirname + "/../protos/weather_forecasting_service.proto";
 
 const packageDefinition = protoLoader.loadSync(PROTO_PATH, {
   keepCase: true,
