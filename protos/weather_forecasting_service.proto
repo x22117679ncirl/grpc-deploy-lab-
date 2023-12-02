@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package weather;
+
+service WeatherForecastingService {
+  rpc GetWeatherUpdate(WeatherRequest) returns (WeatherResponse) {}
+}
+
+message WeatherRequest {
+  string location = 1;
+}
+
+message WeatherResponse {
+  float temperature = 1;
+  string rainForecast = 2;
+  string snowForecast = 3;
+}
