@@ -1,0 +1,24 @@
+{
+  "name": "m50-traffic-management-system",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/x22117679ncirl/m50-traffic-management-system.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/x22117679ncirl/m50-traffic-management-system/issues"
+  },
+  "homepage": "https://github.com/x22117679ncirl/m50-traffic-management-system#readme",
+  "dependencies": {
+    "@grpc/grpc-js": "^1.9.12",
+    "@grpc/proto-loader": "^0.7.10"
+  }
+}
