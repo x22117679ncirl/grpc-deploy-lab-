@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>M50 Traffic Management System</title>
+    <!-- Bootstrap documentation: https://getbootstrap.com/docs/5.3/getting-started/introduction/ -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="text-center mt-5">M50 Traffic Management System</h1>
+
+      <!-- Weather Updates -->
+      <div class="mt-4">
+        <h2>Weather Updates</h2>
+        <button id="weatherUpdateBtn" class="btn btn-primary">
+          Get Weather Update
+        </button>
+        <p id="weatherUpdateResult"></p>
+      </div>
+
+      <!-- Incident Alerts -->
+      <div class="mt-4">
+        <h2>Incident Alerts</h2>
+        <button id="incidentAlertsBtn" class="btn btn-primary">
+          Subscribe to Incident Alerts
+        </button>
+        <div id="incidentAlertsResult"></div>
+      </div>
+
+      <!-- Congestion Reports -->
+      <div class="mt-4">
+        <h2>Congestion Reports</h2>
+        <button id="congestionReportBtn" class="btn btn-primary">
+          Get Congestion Report
+        </button>
+        <p id="congestionReportResult"></p>
+      </div>
+    </div>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+      crossorigin="anonymous"
+    ></script>
+    <script src="script.js"></script>
+  </body>
+</html>
