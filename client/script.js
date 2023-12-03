@@ -7,20 +7,19 @@ document.addEventListener("DOMContentLoaded", function () {
   const conditionElem = document.getElementById("condition");
 
   weatherUpdateBtn.addEventListener("click", function () {
-    // Simulate fetching weather data
-    const mockData = {
-      date: new Date().toLocaleDateString(),
-      time: new Date().toLocaleTimeString(),
-      temperature: "15°C",
-      condition: "Sunny",
-    };
+    fetch("/api/weather")
+      .then((response) => response.json())
+      .then((data) => {
+        // Display the fetched data. The client is fetching it from the server.
+        currentDateElem.textContent = data.date;
+        currentTimeElem.textContent = data.time;
+        temperatureElem.textContent = `${data.temperature}°C`;
+        conditionElem.textContent = data.condition;
 
-    // Display the data
-    currentDateElem.textContent = mockData.date;
-    currentTimeElem.textContent = mockData.time;
-    temperatureElem.textContent = mockData.temperature;
-    conditionElem.textContent = mockData.condition;
-
-    weatherTable.style.display = "block"; // Show the table that is initially hidden before the interaction
+        weatherTable.style.display = "block"; // Show the table that is initially hidden before the interaction
+      })
+      .catch((error) => {
+        console.error("Error fetching weather data:", error);
+      });
   });
 });
