@@ -12,12 +12,22 @@ const packageDefinition = protoLoader.loadSync(PROTO_PATH, {
 });
 const weatherProto = grpc.loadPackageDefinition(packageDefinition).weather;
 
+// Removed mock data. The "real" weather data will be taken from here
 const getWeatherUpdate = (call, callback) => {
+  const temperature = Math.floor(Math.random() * 36) - 5; // Random temperature between -5 and 30
+  let condition;
+
+  if (temperature <= 0) {
+    condition = Math.random() < 0.5 ? "Snowing" : "Sunny";
+  } else {
+    condition = Math.random() < 0.5 ? "Rainy" : "Sunny";
+  }
+
   const response = {
-    temperature: 15,
-    rainForecast: "Light rain",
-    snowForecast: "None",
+    temperature,
+    condition,
   };
+
   callback(null, response);
 };
 

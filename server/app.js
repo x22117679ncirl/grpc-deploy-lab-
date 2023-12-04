@@ -1,22 +1,41 @@
 // Express documentation: https://expressjs.com/en/guide/using-template-engines.html
 const express = require("express");
 const path = require("path");
+const grpc = require("@grpc/grpc-js");
+const protoLoader = require("@grpc/proto-loader");
 const app = express();
 
-// Connection to the client
+const PROTO_PATH = "../protos/weather_forecasting_service.proto";
+const packageDefinition = protoLoader.loadSync(PROTO_PATH, {
+  keepCase: true,
+  longs: String,
+  enums: String,
+  defaults: true,
+  oneofs: true,
+});
+
+const weatherProto = grpc.loadPackageDefinition(packageDefinition).weather;
+const weatherClient = new weatherProto.WeatherForecastingService(
+  "localhost:40000",
+  grpc.credentials.createInsecure()
+);
+
 app.use(express.static(path.join(__dirname, "../client")));
 
-// Weather updates
 app.get("/api/weather", (req, res) => {
-  // PLEASE READ: This is still a mock up, to enhance in Phase 2 when everything is working
-  const weatherData = {
-    date: new Date().toLocaleDateString(),
-    time: new Date().toLocaleTimeString(),
-    temperature: 15, // Example temperature
-    condition: "Sunny", // Example condition
-  };
-
-  res.json(weatherData);
+  weatherClient.getWeatherUpdate({}, (error, response) => {
+    if (error) {
+      res.status(500).send("Error fetching weather data");
+    } else {
+      const enhancedResponse = {
+        date: new Date().toLocaleDateString(),
+        time: new Date().toLocaleTimeString(),
+        temperature: response.temperature,
+        condition: response.condition,
+      };
+      res.json(enhancedResponse);
+    }
+  });
 });
 
 // Start the server
