@@ -12,20 +12,34 @@ const packageDefinition = protoLoader.loadSync(PROTO_PATH, {
 });
 const weatherProto = grpc.loadPackageDefinition(packageDefinition).weather;
 
-// Removed mock data. The "real" weather data will be taken from here
-const getWeatherUpdate = (call, callback) => {
-  const temperature = Math.floor(Math.random() * 36) - 5; // Random temperature between -5 and 30
-  let condition;
+//1. Function: getCurrentWeather function
+//Removed mock data. The "real" weather data will be taken from here
+const getCurrentWeather = (call, callback) => {
+  // Random temperature between -5 and 30 degrees (assumptions of temperatures in Ireland)
+  const temperature = Math.floor(Math.random() * 36) - 5;
 
+  let weather;
+  let message;
+
+  // Logic to dynamically create the info
   if (temperature <= 0) {
-    condition = Math.random() < 0.5 ? "Snowing" : "Sunny";
+    weather = Math.random() < 0.5 ? "Snowing" : "Sunny";
+    message =
+      weather === "Snowing"
+        ? "Snow chains and Winter tyers are MANDATORY"
+        : "Enjoy the sunny day";
   } else {
-    condition = Math.random() < 0.5 ? "Rainy" : "Sunny";
+    weather = Math.random() < 0.5 ? "Rainy" : "Sunny";
+    message =
+      weather === "Rainy"
+        ? "SLOW DOWN and keep a safe distance."
+        : "Enjoy the sunny day";
   }
 
   const response = {
     temperature,
-    condition,
+    weather,
+    message,
   };
 
   callback(null, response);
@@ -33,8 +47,9 @@ const getWeatherUpdate = (call, callback) => {
 
 const server = new grpc.Server();
 server.addService(weatherProto.WeatherForecastingService.service, {
-  getWeatherUpdate,
+  getCurrentWeather,
 });
+
 server.bindAsync(
   "0.0.0.0:40000",
   grpc.ServerCredentials.createInsecure(),

@@ -23,7 +23,7 @@ const weatherClient = new weatherProto.WeatherForecastingService(
 app.use(express.static(path.join(__dirname, "../client")));
 
 app.get("/api/weather", (req, res) => {
-  weatherClient.getWeatherUpdate({}, (error, response) => {
+  weatherClient.GetCurrentWeather({}, (error, response) => {
     if (error) {
       res.status(500).send("Error fetching weather data");
     } else {
@@ -31,7 +31,8 @@ app.get("/api/weather", (req, res) => {
         date: new Date().toLocaleDateString(),
         time: new Date().toLocaleTimeString(),
         temperature: response.temperature,
-        condition: response.condition,
+        weather: response.weather,
+        message: response.message,
       };
       res.json(enhancedResponse);
     }
