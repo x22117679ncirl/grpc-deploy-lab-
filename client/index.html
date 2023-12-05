@@ -17,6 +17,7 @@
       <h1 class="text-center mt-5">M50 Traffic Management System</h1>
 
       <!-- Weather Updates -->
+      <!-- Weather Updates -->
       <div class="mt-4">
         <h2>Weather Updates</h2>
         <button id="weatherUpdateButton" class="btn btn-primary">
@@ -30,6 +31,8 @@
                 <th>Time</th>
                 <th>Temperature (°C)</th>
                 <th>Condition</th>
+                <th>Air Quality Index</th>
+                <th>Message</th>
               </tr>
             </thead>
             <tbody>
@@ -38,13 +41,13 @@
                 <td id="currentTime"></td>
                 <td id="temperature"></td>
                 <td id="weather"></td>
-              </tr>
-              <tr>
-                <td colspan="4" id="weatherMessage"></td>
+                <td id="airQualityIndex"></td>
+                <td id="airQualityMessage"></td>
               </tr>
             </tbody>
           </table>
         </div>
+        <p id="weatherMessage"></p>
       </div>
 
       <!-- Incident Alerts -->

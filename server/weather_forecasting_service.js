@@ -45,9 +45,38 @@ const getCurrentWeather = (call, callback) => {
   callback(null, response);
 };
 
+//2.Function: get getAirQuality function
+const getAirQuality = (call, callback) => {
+  // Randomize air quality value between 0 and 500
+  const quality = Math.floor(Math.random() * 501);
+
+  let message;
+  if (quality <= 50) {
+    message = "Good";
+  } else if (quality <= 100) {
+    message = "Moderate";
+  } else if (quality <= 150) {
+    message = "Unhealthy for Sensitive Groups";
+  } else if (quality <= 200) {
+    message = "Unhealthy";
+  } else if (quality <= 300) {
+    message = "Very Unhealthy";
+  } else {
+    message = "Hazardous";
+  }
+
+  const response = {
+    quality,
+    message,
+  };
+
+  callback(null, response);
+};
+
 const server = new grpc.Server();
 server.addService(weatherProto.WeatherForecastingService.service, {
   getCurrentWeather,
+  getAirQuality,
 });
 
 server.bindAsync(
