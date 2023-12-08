@@ -73,10 +73,31 @@ const getAirQuality = (call, callback) => {
   callback(null, response);
 };
 
+// Testing everything with mockup/fake data
+let historicalWeatherData = [
+  {
+    date: "2023-03-01",
+    maxTemperature: 10,
+    minTemperature: 3,
+    weather: "Cloudy",
+  },
+  {
+    date: "2023-03-02",
+    maxTemperature: 12,
+    minTemperature: 5,
+    weather: "Sunny",
+  },
+];
+
+const getHistoricalWeather = (call, callback) => {
+  callback(null, { records: historicalWeatherData });
+};
+
 const server = new grpc.Server();
 server.addService(weatherProto.WeatherForecastingService.service, {
   getCurrentWeather,
   getAirQuality,
+  getHistoricalWeather,
 });
 
 server.bindAsync(

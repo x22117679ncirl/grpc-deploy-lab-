@@ -9,6 +9,17 @@ document.addEventListener("DOMContentLoaded", function () {
   const airQualityIndexElem = document.getElementById("airQualityIndex");
   const airQualityMessageElem = document.getElementById("airQualityMessage");
 
+  // New development start here
+  const historicalWeatherBtn = document.getElementById(
+    "historicalWeatherButton"
+  );
+  const historicalWeatherTable = document.getElementById(
+    "historicalWeatherTable"
+  );
+  const historicalWeatherDataElem = document.getElementById(
+    "historicalWeatherData"
+  );
+
   weatherUpdateBtn.addEventListener("click", function () {
     fetch("/api/weather")
       .then((response) => response.json())
@@ -31,7 +42,30 @@ document.addEventListener("DOMContentLoaded", function () {
       .catch((error) => {
         console.error("Error fetching air quality data:", error);
       });
-
     weatherTable.style.display = "block"; // Show the table that is initially hidden before the interaction
+  });
+
+  // Historical Weather
+  historicalWeatherBtn.addEventListener("click", function () {
+    fetch("/api/historical-weather")
+      .then((response) => response.json())
+      .then((data) => {
+        let historicalDataHtml = "";
+        data.records.forEach((record) => {
+          historicalDataHtml += `
+                    <tr>
+                        <td>${record.date}</td>
+                        <td>${record.maxTemperature}°C</td>
+                        <td>${record.minTemperature}°C</td>
+                        <td>${record.weather}</td>
+                    </tr>
+                `;
+        });
+        historicalWeatherDataElem.innerHTML = historicalDataHtml;
+        historicalWeatherTable.style.display = "block";
+      })
+      .catch((error) => {
+        console.error("Error fetching historical weather data:", error);
+      });
   });
 });

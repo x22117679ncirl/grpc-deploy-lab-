@@ -49,6 +49,16 @@ app.get("/api/air-quality", (req, res) => {
   });
 });
 
+app.get("/api/historical-weather", (req, res) => {
+  weatherClient.GetHistoricalWeather({}, (error, response) => {
+    if (error) {
+      res.status(500).send("Error fetching historical weather data");
+    } else {
+      res.json(response);
+    }
+  });
+});
+
 // Start the server
 const PORT = 3000;
 app.listen(PORT, () => {
