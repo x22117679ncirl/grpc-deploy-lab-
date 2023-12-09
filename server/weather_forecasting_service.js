@@ -1,8 +1,10 @@
 const grpc = require("@grpc/grpc-js");
 const protoLoader = require("@grpc/proto-loader");
 
+// Defining the path to the proto file in the server folder
 var PROTO_PATH = __dirname + "/../protos/weather_forecasting_service.proto";
 
+// Loading the proto file
 const packageDefinition = protoLoader.loadSync(PROTO_PATH, {
   keepCase: true,
   longs: String,
@@ -12,94 +14,48 @@ const packageDefinition = protoLoader.loadSync(PROTO_PATH, {
 });
 const weatherProto = grpc.loadPackageDefinition(packageDefinition).weather;
 
-//1. Function: getCurrentWeather function
-//Removed mock data. The "real" weather data will be taken from here
-const getCurrentWeather = (call, callback) => {
-  // Random temperature between -5 and 30 degrees (assumptions of temperatures in Ireland)
-  const temperature = Math.floor(Math.random() * 36) - 5;
-
-  let weather;
-  let message;
-
-  // Logic to dynamically create the info
-  if (temperature <= 0) {
-    weather = Math.random() < 0.5 ? "Snowing" : "Sunny";
-    message =
-      weather === "Snowing"
-        ? "Snow chains and Winter tyers are MANDATORY"
-        : "Enjoy the sunny day";
-  } else {
-    weather = Math.random() < 0.5 ? "Rainy" : "Sunny";
-    message =
-      weather === "Rainy"
-        ? "SLOW DOWN and keep a safe distance."
-        : "Enjoy the sunny day";
-  }
-
-  const response = {
-    temperature,
-    weather,
-    message,
-  };
-
-  callback(null, response);
-};
-
-//2.Function: get getAirQuality function
-const getAirQuality = (call, callback) => {
-  // Randomize air quality value between 0 and 500
-  const quality = Math.floor(Math.random() * 501);
-
-  let message;
-  if (quality <= 50) {
-    message = "Good";
-  } else if (quality <= 100) {
-    message = "Moderate";
-  } else if (quality <= 150) {
-    message = "Unhealthy for Sensitive Groups";
-  } else if (quality <= 200) {
-    message = "Unhealthy";
-  } else if (quality <= 300) {
-    message = "Very Unhealthy";
-  } else {
-    message = "Hazardous";
-  }
-
-  const response = {
-    quality,
-    message,
-  };
-
-  callback(null, response);
-};
-
-// Testing everything with mockup/fake data
-let historicalWeatherData = [
-  {
-    date: "2023-03-01",
-    maxTemperature: 10,
-    minTemperature: 3,
-    weather: "Cloudy",
-  },
-  {
-    date: "2023-03-02",
-    maxTemperature: 12,
-    minTemperature: 5,
-    weather: "Sunny",
-  },
-];
-
-const getHistoricalWeather = (call, callback) => {
-  callback(null, { records: historicalWeatherData });
-};
-
+// Creating the gRPC server
 const server = new grpc.Server();
+
+// Implementing GetCurrentWeather service
 server.addService(weatherProto.WeatherForecastingService.service, {
-  getCurrentWeather,
-  getAirQuality,
-  getHistoricalWeather,
+  GetCurrentWeather: (call, callback) => {
+    // Simulating fetching weather data - TO BE UPDATED after testing
+    const response = {
+      date: new Date().toLocaleDateString(),
+      time: new Date().toLocaleTimeString(),
+      temperature: Math.floor(Math.random() * 35) - 5, // Random temperature
+      weather: "Sunny", // TO BE UPDATED after testing
+    };
+    callback(null, response);
+  },
+
+  // Implementing GetAirQuality service
+  GetAirQuality: (call, callback) => {
+    // Simulate fetching air quality data
+    const response = {
+      date: new Date().toLocaleDateString(),
+      time: new Date().toLocaleTimeString(),
+      quality: Math.floor(Math.random() * 500), // Random air quality index
+      message: "Good", // TO BE UPDATED after testing
+    };
+    callback(null, response);
+  },
+
+  // Implementing GetWindData service
+  GetWindData: (call, callback) => {
+    // Simulate fetching wind data
+    const response = {
+      date: new Date().toLocaleDateString(),
+      time: new Date().toLocaleTimeString(),
+      speed: Math.floor(Math.random() * 100), // Random wind speed
+      direction: "North", // TO BE UPDATED after testing
+    };
+    callback(null, response);
+  },
 });
 
+// Binding and starting the server
 server.bindAsync(
   "0.0.0.0:40000",
   grpc.ServerCredentials.createInsecure(),

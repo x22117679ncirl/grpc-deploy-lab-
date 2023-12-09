@@ -12,8 +12,8 @@ service WeatherForecastingService {
   // Returns air quality index
   rpc GetAirQuality(AirQualityRequest) returns (AirQualityResponse) {}
 
-  // Provides historical data
-  rpc GetHistoricalWeather(HistoricalWeatherRequest) returns (HistoricalWeatherResponse) {}
+  // Returns wind data
+  rpc GetWindData(WindDataRequest) returns (WindDataResponse) {}
 }
 
 // Request for weather updates
@@ -23,9 +23,10 @@ message WeatherRequest {
 
 // Response for weather updates
 message WeatherResponse {
-  int32 temperature = 1;
-  string weather = 2;
-  string message = 3;
+  string date = 1;
+  string time = 2;
+  int32 temperature = 3;
+  string weather = 4;
 }
 
 // Request for air quality
@@ -35,26 +36,21 @@ message AirQualityRequest {
 
 // Response for air quality
 message AirQualityResponse {
-  int32 quality = 1;
-  string message = 2;
-}
-
-// Request for historical data
-message HistoricalWeatherRequest {
-  string location = 1;
-  string startDate = 2;
-  string endDate = 3;
-}
-
-// Response for historical data
-message HistoricalWeatherResponse {
-  repeated DailyWeatherRecord records = 1;
-}
-
-// Daily weather record
-message DailyWeatherRecord {
   string date = 1;
-  int32 maxTemperature = 2;
-  int32 minTemperature = 3;
-  string weather = 4;
+  string time = 2;
+  int32 quality = 3;
+  string message = 4;
+}
+
+// Request for wind data
+message WindDataRequest {
+  string location = 1;
+}
+
+// Response for wind data
+message WindDataResponse {
+  string date = 1;
+  string time = 2;
+  int32 speed = 3;
+  string direction = 4;
 }
