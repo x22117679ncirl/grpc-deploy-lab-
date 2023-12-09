@@ -8,6 +8,8 @@ document.addEventListener("DOMContentLoaded", function () {
   const weatherElem = document.getElementById("weather");
   const airQualityIndexElem = document.getElementById("airQualityIndex");
   const airQualityMessageElem = document.getElementById("airQualityMessage");
+
+  // New development start here
   const historicalWeatherBtn = document.getElementById(
     "historicalWeatherButton"
   );
@@ -19,78 +21,51 @@ document.addEventListener("DOMContentLoaded", function () {
   );
 
   weatherUpdateBtn.addEventListener("click", function () {
-    updateWeather(
-      currentDateElem,
-      currentTimeElem,
-      temperatureElem,
-      weatherElem,
-      weatherMessage,
-      airQualityIndexElem,
-      airQualityMessageElem,
-      weatherTable
-    );
+    fetch("/api/weather")
+      .then((response) => response.json())
+      .then((data) => {
+        // Display the fetched data. The client is fetching it from the server.
+        currentDateElem.textContent = data.date;
+        currentTimeElem.textContent = data.time;
+        temperatureElem.textContent = `${data.temperature}°C`;
+        weatherElem.textContent = data.weather;
+        weatherMessage.innerHTML = `<strong>M50 message:</strong> ${data.message}`;
+
+        // Fetch and display air quality data.
+        return fetch("/api/air-quality");
+      })
+      .then((response) => response.json())
+      .then((airQualityData) => {
+        airQualityIndexElem.textContent = airQualityData.quality;
+        airQualityMessageElem.textContent = airQualityData.message;
+      })
+      .catch((error) => {
+        console.error("Error fetching air quality data:", error);
+      });
+    weatherTable.style.display = "block"; // Show the table that is initially hidden before the interaction
   });
 
+  // Historical Weather
   historicalWeatherBtn.addEventListener("click", function () {
-    updateHistoricalWeather(historicalWeatherDataElem, historicalWeatherTable);
+    fetch("/api/historical-weather")
+      .then((response) => response.json())
+      .then((data) => {
+        let historicalDataHtml = "";
+        data.records.forEach((record) => {
+          historicalDataHtml += `
+                    <tr>
+                        <td>${record.date}</td>
+                        <td>${record.maxTemperature}°C</td>
+                        <td>${record.minTemperature}°C</td>
+                        <td>${record.weather}</td>
+                    </tr>
+                `;
+        });
+        historicalWeatherDataElem.innerHTML = historicalDataHtml;
+        historicalWeatherTable.style.display = "block";
+      })
+      .catch((error) => {
+        console.error("Error fetching historical weather data:", error);
+      });
   });
 });
-
-function updateWeather(
-  currentDateElem,
-  currentTimeElem,
-  temperatureElem,
-  weatherElem,
-  weatherMessage,
-  airQualityIndexElem,
-  airQualityMessageElem,
-  weatherTable
-) {
-  fetch("/api/weather")
-    .then((response) => response.json())
-    .then((data) => {
-      currentDateElem.textContent = data.date;
-      currentTimeElem.textContent = data.time;
-      temperatureElem.textContent = `${data.temperature}°C`;
-      weatherElem.textContent = data.weather;
-      weatherMessage.innerHTML = `<strong>M50 message:</strong> ${data.message}`;
-
-      return fetch("/api/air-quality");
-    })
-    .then((response) => response.json())
-    .then((airQualityData) => {
-      airQualityIndexElem.textContent = airQualityData.quality;
-      airQualityMessageElem.textContent = airQualityData.message;
-    })
-    .catch((error) => {
-      console.error("Error fetching air quality data:", error);
-    });
-  weatherTable.style.display = "block";
-}
-
-function updateHistoricalWeather(
-  historicalWeatherDataElem,
-  historicalWeatherTable
-) {
-  fetch("/api/historical-weather")
-    .then((response) => response.json())
-    .then((data) => {
-      let historicalDataHtml = "";
-      data.records.forEach((record) => {
-        historicalDataHtml += `
-                  <tr>
-                      <td>${record.date}</td>
-                      <td>${record.time}</td>
-                      <td>${record.temperature}°C</td>
-                      <td>${record.weather}</td>
-                      <td>${record.airQualityIndex}</td>
-                      <td>${record.airQualityMessage}</td>
-                  </tr>`;
-      });
-      historicalWeatherDataElem.innerHTML = historicalDataHtml;
-      historicalWeatherTable.style.display = "block";
-    })
-    .catch((error) => {
-      console.error("Error fetching historical weather data:", error);
-    });
-}
