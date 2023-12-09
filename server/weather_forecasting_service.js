@@ -12,21 +12,19 @@ const packageDefinition = protoLoader.loadSync(PROTO_PATH, {
 });
 const weatherProto = grpc.loadPackageDefinition(packageDefinition).weather;
 
-//1. Function: getCurrentWeather function
-//Removed mock data. The "real" weather data will be taken from here
-const getCurrentWeather = (call, callback) => {
-  // Random temperature between -5 and 30 degrees (assumptions of temperatures in Ireland)
+// 1. Function: getCurrentWeather function
+// Removed mock data. The "real" weather data will be taken from here
+function getCurrentWeather(call, callback) {
   const temperature = Math.floor(Math.random() * 36) - 5;
 
   let weather;
   let message;
 
-  // Logic to dynamically create the info
   if (temperature <= 0) {
     weather = Math.random() < 0.5 ? "Snowing" : "Sunny";
     message =
       weather === "Snowing"
-        ? "Snow chains and Winter tyers are MANDATORY"
+        ? "Snow chains and Winter tyres are MANDATORY"
         : "Enjoy the sunny day";
   } else {
     weather = Math.random() < 0.5 ? "Rainy" : "Sunny";
@@ -43,11 +41,10 @@ const getCurrentWeather = (call, callback) => {
   };
 
   callback(null, response);
-};
+}
 
-//2.Function: get getAirQuality function
-const getAirQuality = (call, callback) => {
-  // Randomize air quality value between 0 and 500
+// 2. Function: getAirQuality function
+function getAirQuality(call, callback) {
   const quality = Math.floor(Math.random() * 501);
 
   let message;
@@ -71,9 +68,9 @@ const getAirQuality = (call, callback) => {
   };
 
   callback(null, response);
-};
+}
 
-// Testing everything with mockup/fake data
+// Mockup data for testing
 let historicalWeatherData = [
   {
     date: "2023-03-01",
@@ -89,9 +86,10 @@ let historicalWeatherData = [
   },
 ];
 
-const getHistoricalWeather = (call, callback) => {
+// Function: getHistoricalWeather
+function getHistoricalWeather(call, callback) {
   callback(null, { records: historicalWeatherData });
-};
+}
 
 const server = new grpc.Server();
 server.addService(weatherProto.WeatherForecastingService.service, {
