@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package incident;
+
+// Incident alert service
+service IncidentAlertService {
+  rpc GetCurrentIncident(IncidentRequest) returns (stream IncidentResponse) {}
+}
+
+// Request for incident updates
+message IncidentRequest {
+  string location = 1;
+}
+
+// Response for indidents updates
+message IncidentResponse {
+  string date = 1;
+  string time = 2;
+  string motorwaySection = 3;
+  string description = 4;
+}

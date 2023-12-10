@@ -16,16 +16,16 @@
     <div class="container">
       <h1 class="text-center mt-5">M50 Traffic Management System</h1>
 
-      <!-- Button Visible -->
+      <!-- Get Weather - BUTTON -->
       <div class="mt-4">
-        <button id="weatherUpdateButton" class="btn btn-primary">
+        <button id="weatherUpdateButton" class="btn btn-primary w-100">
           Get Weather Update
         </button>
       </div>
 
-      <!-- Weather Table -->
+      <!-- Weather - TABLE -->
       <div id="weatherTable" class="mt-4" style="display: none">
-        <h2>Weather Updates</h2>
+        <h2>Weather</h2>
         <table class="table">
           <thead>
             <tr>
@@ -39,9 +39,9 @@
         </table>
       </div>
 
-      <!-- Air Quality Table -->
+      <!-- Air Quality - TABLE -->
       <div id="airQualityTable" class="mt-4" style="display: none">
-        <h2>Air Quality Index</h2>
+        <h2>Air Quality</h2>
         <table class="table">
           <thead>
             <tr>
@@ -55,9 +55,9 @@
         </table>
       </div>
 
-      <!-- Wind Data Table -->
+      <!-- Wind - TABLE -->
       <div id="windDataTable" class="mt-4" style="display: none">
-        <h2>Wind Data</h2>
+        <h2>Wind</h2>
         <table class="table">
           <thead>
             <tr>
@@ -68,6 +68,29 @@
             </tr>
           </thead>
           <tbody id="windData"></tbody>
+        </table>
+      </div>
+
+      <!-- Get Incident - BUTTON -->
+      <div class="mt-4">
+        <button id="incidentAlertsButton" class="btn btn-primary w-100">
+          Get Live Incidents
+        </button>
+      </div>
+
+      <!-- Incident Alerts - TABLE -->
+      <div id="incidentAlertsResult" class="mt-4" style="display: none">
+        <h2>Incident Alerts</h2>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Time</th>
+              <th>Motorway Section</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody id="incidentData"></tbody>
         </table>
       </div>
     </div>
