@@ -1,10 +1,8 @@
 // Wait until DOM Content is loaded before proceeding with whole script
 document.addEventListener("DOMContentLoaded", function () {
-  // Get the "Get Weather Update", "Get Live Incidents", "Toll System" and "Today's Revenue" buttons based on their IDs
+  // Get the "Get Weather Update" and "Get Live Incidents" buttons based on their IDs
   const weatherUpdateBtn = document.getElementById("weatherUpdateButton");
   const incidentAlertsBtn = document.getElementById("incidentAlertsButton");
-  const tollSystemButton = document.getElementById("tollSystemButton");
-  const todaysRevenueButton = document.getElementById("todaysRevenueButton");
 
   // Add event listener based on click on the "Get Weather Update Button"
   weatherUpdateBtn.addEventListener("click", function () {
@@ -37,15 +35,6 @@ document.addEventListener("DOMContentLoaded", function () {
         console.error("Error fetching weather data:", error);
       });
   }
-
-  // Add event listener based on click on the "Toll System"
-  tollSystemButton.addEventListener("click", function () {
-    window.open("toll.html", "Toll System", "width=300,height=400");
-  });
-
-  todaysRevenueButton.addEventListener("click", function () {
-    // LOGIC TO BE ADDED as soon everything works
-  });
 
   // Function definition to fetch air quality data
   function fetchAirQualityData() {

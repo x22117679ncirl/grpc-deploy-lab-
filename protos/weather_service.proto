@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package weather;
 
+// As requested on the 12 of December in Teams, adding complexity to the service
+
 // Weather forecasting service
 service WeatherForecastingService {
   // Returns current weather updates

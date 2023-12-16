@@ -49,30 +49,6 @@ const incidentClient = new incidentProto.IncidentAlertService(
   grpc.credentials.createInsecure()
 );
 
-// Defining the path to the performance tracking proto file
-const PERFORMANCE_PROTO_PATH = "../protos/performance_tracking.proto";
-
-// Loading the performance tracking proto file
-const performancePackageDefinition = protoLoader.loadSync(
-  PERFORMANCE_PROTO_PATH,
-  {
-    keepCase: true,
-    longs: String,
-    enums: String,
-    defaults: true,
-    oneofs: true,
-  }
-);
-const performanceProto = grpc.loadPackageDefinition(
-  performancePackageDefinition
-).performance_tracking;
-
-// Creating a gRPC client for the performance tracking service
-const performanceClient = new performanceProto.TollCalculationService(
-  "localhost:40002",
-  grpc.credentials.createInsecure()
-);
-
 // Serving static files from the 'client' directory
 app.use(express.static(path.join(__dirname, "../client")));
 
@@ -134,28 +110,6 @@ app.get("/api/incidents", (req, res) => {
   call.on("error", (error) => {
     console.error("Error in incident stream:", error);
     res.status(500).end();
-  });
-});
-
-// Route for tracking vehicle performance
-app.post("/api/track-vehicle-performance", (req, res) => {
-  let call = performanceClient.TrackVehiclePerformance();
-
-  req.on("data", (chunk) => {
-    let tollRequest = JSON.parse(chunk.toString());
-    call.write(tollRequest);
-  });
-
-  req.on("end", () => {
-    call.end();
-  });
-
-  call.on("data", (tollResponse) => {
-    res.write(JSON.stringify(tollResponse));
-  });
-
-  call.on("end", () => {
-    res.end();
   });
 });
 
