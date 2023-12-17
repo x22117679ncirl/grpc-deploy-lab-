@@ -58,7 +58,7 @@ const getCurrentIncident = (call) => {
 
   // Handle client's end event
   call.on("end", () => {
-    clearInterval(sendDataInterval); // Make sure to clear the interval when the client ends the request
+    clearInterval(sendDataInterval);
   });
 };
 

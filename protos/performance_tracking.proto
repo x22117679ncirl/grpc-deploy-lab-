@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package performance_tracking;
+
+service TollCalculationService {
+  rpc TrackVehiclePerformance (stream TollRequest) returns (stream TollResponse);
+}
+
+service DailyProfitCalculationService {
+  rpc CalculateDailyProfit (stream VehiclePaymentResponse) returns (ProfitResponse);
+}
+
+message TollRequest {
+  string vehicle_type = 1;
+  double distance_traveled = 2;
+}
+
+message TollResponse {
+  double toll_amount = 1;
+}
+
+message VehiclePaymentResponse {
+  double toll_amount = 1;
+}
+
+message ProfitResponse {
+  double total_profit = 1;
+}
