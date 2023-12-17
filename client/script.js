@@ -1,10 +1,13 @@
 // Wait until DOM Content is loaded before proceeding with the whole script
 document.addEventListener("DOMContentLoaded", function () {
-  // Get the "Get Weather Update", "Get Live Incidents", "Toll System" and "Profit" buttons based on their IDs
+  // Get the "Get Weather Update", "Get Live Incidents", "Toll System," and "Profit" buttons based on their IDs
   const weatherUpdateBtn = document.getElementById("weatherUpdateButton");
   const incidentAlertsBtn = document.getElementById("incidentAlertsButton");
   const tollSystemButton = document.getElementById("tollSystemButton");
-  const profitButton = document.getElementById("profiButton");
+  const profitButton = document.getElementById("profitButton");
+
+  // Define a variable to store the daily profit
+  let dailyProfit = 0;
 
   // Add event listener based on click on the "Get Weather Update Button"
   weatherUpdateBtn.addEventListener("click", function () {
@@ -74,16 +77,35 @@ document.addEventListener("DOMContentLoaded", function () {
       body: JSON.stringify(tollRequest),
     })
       .then(function (response) {
-        return response.json();
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.text(); // Change to response.text()
       })
       .then(function (data) {
         // Log the TollResponse to the console
         console.log("TollResponse:", data); // DEBUG
 
-        // Display the calculated toll_amount in the result section
-        const tollAmountElement = document.getElementById("tollAmount");
-        tollAmountElement.textContent = data.toll_amount;
-        document.getElementById("tollResult").style.display = "block";
+        try {
+          const responseData = JSON.parse(data); // Parse the response as JSON
+          // Check if responseData is a valid JSON object
+          if (
+            typeof responseData === "object" &&
+            responseData.hasOwnProperty("toll_amount")
+          ) {
+            // Add the toll amount to the daily profit
+            dailyProfit += responseData.toll_amount;
+
+            // Display the calculated toll_amount in the result section
+            const tollAmountElement = document.getElementById("tollAmount");
+            tollAmountElement.textContent = responseData.toll_amount;
+            document.getElementById("tollResult").style.display = "block";
+          } else {
+            console.error("Invalid JSON response from the server");
+          }
+        } catch (error) {
+          console.error("Error parsing JSON response:", error);
+        }
       })
       .catch(function (error) {
         console.error("Error calculating toll:", error);
@@ -91,8 +113,8 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   profitButton.addEventListener("click", function () {
-    // LOGIC TO BE ADDED as soon everything works
-    console.log("Profit button has been clicked");
+    // Log the daily profit when the Profit button is clicked
+    console.log("Daily Profit:", dailyProfit);
   });
 
   // Function definition to fetch air quality data
