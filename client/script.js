@@ -45,6 +45,45 @@ document.addEventListener("DOMContentLoaded", function () {
     tollSystemForm.style.display = "block";
   });
 
+  // Event listener for form submission
+  const tollForm = document.getElementById("tollForm");
+  tollForm.addEventListener("submit", function (e) {
+    e.preventDefault(); // Prevent the default form submission behavior
+
+    // Get the selected vehicle type and distance traveled from the form
+    const vehicleType = document.getElementById("vehicleType").value;
+    const distanceTraveled = parseFloat(
+      document.getElementById("distanceTraveled").value
+    );
+
+    // Create a JSON object representing the TollRequest
+    const tollRequest = {
+      vehicle_type: vehicleType,
+      distance_traveled: distanceTraveled,
+    };
+
+    // Make an HTTP POST request to the server to calculate toll
+    fetch("/api/track-vehicle-performance", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(tollRequest),
+    })
+      .then(function (response) {
+        return response.json();
+      })
+      .then(function (data) {
+        // Display the calculated toll_amount in the result section
+        const tollAmountElement = document.getElementById("tollAmount");
+        tollAmountElement.textContent = data.toll_amount;
+        document.getElementById("tollResult").style.display = "block";
+      })
+      .catch(function (error) {
+        console.error("Error calculating toll:", error);
+      });
+  });
+
   todaysRevenueButton.addEventListener("click", function () {
     // LOGIC TO BE ADDED as soon everything works
   });
@@ -119,6 +158,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("windDataTable").style.display = "block";
   }
 
+  // Function definition to subscribe to incident alerts
   function subscribeToIncidentAlerts() {
     console.log("Subscribing to Incident Alerts...");
 
