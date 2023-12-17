@@ -97,11 +97,61 @@
       <!-- Toll System and Today's Revenue - BUTTONS -->
       <div class="row mt-4">
         <div class="col-6 pe-1">
-            <button id="tollSystemButton" class="btn btn-primary w-100">Toll System</button>
+          <button id="tollSystemButton" class="btn btn-primary w-100">
+            Toll System
+          </button>
+          <div id="tollSystemForm" style="display: none">
+            <form id="tollForm" class="mt-3">
+              <div class="mb-3">
+                <label for="vehicleType" class="form-label">Vehicle Type</label>
+                <select class="form-select" id="vehicleType" required>
+                  <option value="">Choose...</option>
+                  <option value="auto">Auto</option>
+                  <option value="motorbike">Motorbike</option>
+                  <option value="bus">Bus</option>
+                  <option value="truck">Truck</option>
+                </select>
+              </div>
+              <div class="mb-3">
+                <label for="distanceTraveled" class="form-label"
+                  >Distance Traveled (km)</label
+                >
+                <input
+                  type="number"
+                  class="form-control"
+                  id="distanceTraveled"
+                  required
+                />
+              </div>
+              <button type="submit" class="btn btn-primary">
+                Calculate Toll
+              </button>
+            </form>
+            <div id="tollResult" class="mt-3" style="display: none">
+              <strong>Toll Amount: </strong><span id="tollAmount"></span>
+            </div>
+          </div>
         </div>
         <div class="col-6 ps-1">
-            <button id="todaysRevenueButton" class="btn btn-danger w-100">Today's Revenue</button>
+          <button id="todaysRevenueButton" class="btn btn-danger w-100">
+            Today's Revenue
+          </button>
         </div>
+      </div>
+
+      <!-- Revenue - TABLE -->
+      <div id="revenueSection" class="mt-4" style="display: none">
+        <h2>Today's Revenue</h2>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Total Revenue</th>
+            </tr>
+          </thead>
+          <tbody id="revenueData"></tbody>
+        </table>
+      </div>
     </div>
 
     <!-- Scripts -->

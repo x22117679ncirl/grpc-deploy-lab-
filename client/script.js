@@ -1,4 +1,4 @@
-// Wait until DOM Content is loaded before proceeding with whole script
+// Wait until DOM Content is loaded before proceeding with the whole script
 document.addEventListener("DOMContentLoaded", function () {
   // Get the "Get Weather Update", "Get Live Incidents", "Toll System" and "Today's Revenue" buttons based on their IDs
   const weatherUpdateBtn = document.getElementById("weatherUpdateButton");
@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Add event listener based on click on the "Get Weather Update Button"
   weatherUpdateBtn.addEventListener("click", function () {
-    // Call functions to fetch weather, air quality and wind data when button is clicked
+    // Call functions to fetch weather, air quality, and wind data when the button is clicked
     fetchWeatherData();
     fetchAirQualityData();
     fetchWindData();
@@ -38,9 +38,11 @@ document.addEventListener("DOMContentLoaded", function () {
       });
   }
 
-  // Add event listener based on click on the "Toll System"
+  // Add event listener based on click on the "Toll System" button
   tollSystemButton.addEventListener("click", function () {
-    window.open("toll.html", "Toll System", "width=300,height=400");
+    // Show the tollSystemForm
+    const tollSystemForm = document.getElementById("tollSystemForm");
+    tollSystemForm.style.display = "block";
   });
 
   todaysRevenueButton.addEventListener("click", function () {
