@@ -20,12 +20,12 @@ const server = new grpc.Server();
 // Implementing GetCurrentWeather service
 server.addService(weatherProto.WeatherForecastingService.service, {
   GetCurrentWeather: (call, callback) => {
-    // Simulating fetching weather data - TO BE UPDATED after testing
+    // Simulating fetching weather data
     const response = {
       date: new Date().toLocaleDateString(),
       time: new Date().toLocaleTimeString(),
       temperature: Math.floor(Math.random() * 35) - 5, // Random temperature
-      weather: "Sunny", // TO BE UPDATED after testing
+      weather: "Sunny",
     };
     callback(null, response);
   },
@@ -37,7 +37,7 @@ server.addService(weatherProto.WeatherForecastingService.service, {
       date: new Date().toLocaleDateString(),
       time: new Date().toLocaleTimeString(),
       quality: Math.floor(Math.random() * 500), // Random air quality index
-      message: "Good", // TO BE UPDATED after testing
+      message: "Good",
     };
     callback(null, response);
   },
@@ -49,7 +49,7 @@ server.addService(weatherProto.WeatherForecastingService.service, {
       date: new Date().toLocaleDateString(),
       time: new Date().toLocaleTimeString(),
       speed: Math.floor(Math.random() * 100), // Random wind speed
-      direction: "North", // TO BE UPDATED after testing
+      direction: "North",
     };
     callback(null, response);
   },

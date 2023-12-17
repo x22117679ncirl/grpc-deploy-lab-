@@ -100,6 +100,9 @@ document.addEventListener("DOMContentLoaded", function () {
             const tollAmountElement = document.getElementById("tollAmount");
             tollAmountElement.textContent = responseData.toll_amount;
             document.getElementById("tollResult").style.display = "block";
+
+            // Log the VehiclePaymentResponse
+            console.log("VehiclePaymentResponse:", responseData);
           } else {
             console.error("Invalid JSON response from the server");
           }
@@ -115,6 +118,18 @@ document.addEventListener("DOMContentLoaded", function () {
   profitButton.addEventListener("click", function () {
     // Log the daily profit when the Profit button is clicked
     console.log("Daily Profit:", dailyProfit);
+
+    // Display the daily profit in the table
+    const dailyProfitData = document.getElementById("dailyProfitData");
+    dailyProfitData.innerHTML = `<strong style="font-size: 50px;">&#8364; ${dailyProfit.toFixed(
+      2
+    )}</strong>`;
+
+    dailyProfitData.style.fontSize = "24px";
+    document.getElementById("dailyProfitTable").style.display = "block";
+
+    // Log the ProfitResponse
+    console.log("ProfitResponse:", dailyProfit);
   });
 
   // Function definition to fetch air quality data
