@@ -1,10 +1,10 @@
 // Wait until DOM Content is loaded before proceeding with the whole script
 document.addEventListener("DOMContentLoaded", function () {
-  // Get the "Get Weather Update", "Get Live Incidents", "Toll System" and "Today's Revenue" buttons based on their IDs
+  // Get the "Get Weather Update", "Get Live Incidents", "Toll System" and "Profit" buttons based on their IDs
   const weatherUpdateBtn = document.getElementById("weatherUpdateButton");
   const incidentAlertsBtn = document.getElementById("incidentAlertsButton");
   const tollSystemButton = document.getElementById("tollSystemButton");
-  const todaysRevenueButton = document.getElementById("todaysRevenueButton");
+  const profitButton = document.getElementById("profiButton");
 
   // Add event listener based on click on the "Get Weather Update Button"
   weatherUpdateBtn.addEventListener("click", function () {
@@ -62,6 +62,9 @@ document.addEventListener("DOMContentLoaded", function () {
       distance_traveled: distanceTraveled,
     };
 
+    // Log the TollRequest to the console
+    console.log("TollRequest:", tollRequest); // DEBUG
+
     // Make an HTTP POST request to the server to calculate toll
     fetch("/api/track-vehicle-performance", {
       method: "POST",
@@ -74,6 +77,9 @@ document.addEventListener("DOMContentLoaded", function () {
         return response.json();
       })
       .then(function (data) {
+        // Log the TollResponse to the console
+        console.log("TollResponse:", data); // DEBUG
+
         // Display the calculated toll_amount in the result section
         const tollAmountElement = document.getElementById("tollAmount");
         tollAmountElement.textContent = data.toll_amount;
@@ -84,8 +90,9 @@ document.addEventListener("DOMContentLoaded", function () {
       });
   });
 
-  todaysRevenueButton.addEventListener("click", function () {
+  profitButton.addEventListener("click", function () {
     // LOGIC TO BE ADDED as soon everything works
+    console.log("Profit button has been clicked");
   });
 
   // Function definition to fetch air quality data
