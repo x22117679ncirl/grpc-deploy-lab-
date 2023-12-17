@@ -1,8 +1,11 @@
+// Required gRPC module and proto loader
 const grpc = require("@grpc/grpc-js");
 const protoLoader = require("@grpc/proto-loader");
 
-var PROTO_PATH = __dirname + "/../protos/incident_service.proto";
+// Defining the path to the proto file in the server folder
+const PROTO_PATH = __dirname + "/../protos/incident_service.proto";
 
+// Loading the proto file with configuration
 const packageDefinition = protoLoader.loadSync(PROTO_PATH, {
   keepCase: true,
   longs: String,
@@ -10,9 +13,10 @@ const packageDefinition = protoLoader.loadSync(PROTO_PATH, {
   defaults: true,
   oneofs: true,
 });
+
 const incidentProto = grpc.loadPackageDefinition(packageDefinition).incident;
 
-// Mock up data, to UPDATE logic later on
+// Mock data with x3 incidents that will be passed afert X seconds
 let incidents = [
   {
     date: new Date().toLocaleDateString(),
@@ -34,9 +38,9 @@ let incidents = [
   },
 ];
 
-// Implementing GetCurrentIncident RPC
+// Implementing GetCurrentIncident
 const getCurrentIncident = (call) => {
-  let currentIndex = 0; // Initialize an index to keep track of which incident to send
+  let currentIndex = 0; // Initialize an index to keep track of which incident to be send to the client
 
   const sendDataInterval = setInterval(() => {
     if (currentIndex < incidents.length) {
@@ -56,17 +60,19 @@ const getCurrentIncident = (call) => {
     }
   }, 10000); // Send data every 10 seconds
 
-  // Handle client's end event
+  // Handle client's end event. If client ends connection, clear interval to stop sending data.
   call.on("end", () => {
     clearInterval(sendDataInterval);
   });
 };
 
+// Creating the gRPC server
 const server = new grpc.Server();
 server.addService(incidentProto.IncidentAlertService.service, {
   GetCurrentIncident: getCurrentIncident,
 });
 
+// Binding and starting the server
 server.bindAsync(
   "0.0.0.0:40001",
   grpc.ServerCredentials.createInsecure(),

@@ -1,4 +1,4 @@
-// Express and other required modules
+// Importing the necessary modules for the Express server and gRPC comms.
 const express = require("express");
 const path = require("path");
 const grpc = require("@grpc/grpc-js");
@@ -8,6 +8,7 @@ const protoLoader = require("@grpc/proto-loader");
 const app = express();
 
 // Defining the path to the weather proto file
+// WEATHER SERVICE
 const WEATHER_PROTO_PATH = "../protos/weather_service.proto";
 
 // Loading the weather proto file
@@ -29,6 +30,7 @@ const weatherClient = new weatherProto.WeatherForecastingService(
 );
 
 // Defining the path to the incident proto file
+// INCIDENT SERVICE
 const INCIDENT_PROTO_PATH = "../protos/incident_service.proto";
 
 // Loading the incident proto file
@@ -50,6 +52,7 @@ const incidentClient = new incidentProto.IncidentAlertService(
 );
 
 // Defining the path to the performance tracking proto file
+// PERFORMANCE TRACKING SERVICE
 const PERFORMANCE_PROTO_PATH = "../protos/performance_tracking.proto";
 
 // Loading the performance tracking proto file
@@ -80,8 +83,10 @@ app.use(express.static(path.join(__dirname, "../client")));
 app.get("/api/weather", (req, res) => {
   weatherClient.GetCurrentWeather({}, (error, response) => {
     if (error) {
+      // In case of a gRPC error, respond with a server error
       res.status(500).send("Error fetching weather data");
     } else {
+      // On success send the weather data as JSON
       res.json(response);
     }
   });
@@ -109,7 +114,7 @@ app.get("/api/wind-data", (req, res) => {
   });
 });
 
-// Route to handle Server-Sent Events (SSE) for incident alerts
+// Route to handle Server-Sent Events (SSE) for incident live alerts
 app.get("/api/incidents", (req, res) => {
   console.log("SSE connection initiated.");
 
@@ -119,6 +124,7 @@ app.get("/api/incidents", (req, res) => {
     Connection: "keep-alive",
   });
 
+  // Establishing a stream with the gRPC server for incident data.
   const call = incidentClient.GetCurrentIncident({ location: "M50" });
 
   call.on("data", (incident) => {

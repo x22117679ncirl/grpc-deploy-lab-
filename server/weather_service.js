@@ -1,10 +1,11 @@
+// Required gRPC module and proto loader
 const grpc = require("@grpc/grpc-js");
 const protoLoader = require("@grpc/proto-loader");
 
 // Defining the path to the proto file in the server folder
-var PROTO_PATH = __dirname + "/../protos/weather_service.proto";
+const PROTO_PATH = __dirname + "/../protos/weather_service.proto";
 
-// Loading the proto file
+// Loading the proto file with configuration
 const packageDefinition = protoLoader.loadSync(PROTO_PATH, {
   keepCase: true,
   longs: String,
@@ -12,6 +13,7 @@ const packageDefinition = protoLoader.loadSync(PROTO_PATH, {
   defaults: true,
   oneofs: true,
 });
+
 const weatherProto = grpc.loadPackageDefinition(packageDefinition).weather;
 
 // Creating the gRPC server
@@ -25,7 +27,7 @@ server.addService(weatherProto.WeatherForecastingService.service, {
       date: new Date().toLocaleDateString(),
       time: new Date().toLocaleTimeString(),
       temperature: Math.floor(Math.random() * 35) - 5, // Random temperature
-      weather: "Sunny",
+      weather: "Sunny", // Static weather passsed
     };
     callback(null, response);
   },
@@ -37,7 +39,7 @@ server.addService(weatherProto.WeatherForecastingService.service, {
       date: new Date().toLocaleDateString(),
       time: new Date().toLocaleTimeString(),
       quality: Math.floor(Math.random() * 500), // Random air quality index
-      message: "Good",
+      message: "Good", // Static message passsed
     };
     callback(null, response);
   },

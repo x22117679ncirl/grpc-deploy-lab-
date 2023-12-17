@@ -1,9 +1,11 @@
-// Import the necessary packages
+// Required gRPC module and proto loader
 const grpc = require("@grpc/grpc-js");
 const protoLoader = require("@grpc/proto-loader");
 
-// Load the gRPC service definitions
+// Defining the path to the proto file in the server folder
 const PROTO_PATH = __dirname + "/../protos/performance_tracking.proto";
+
+// Loading the proto file with configuration
 const packageDefinition = protoLoader.loadSync(PROTO_PATH, {
   keepCase: true,
   longs: String,
@@ -15,13 +17,13 @@ const packageDefinition = protoLoader.loadSync(PROTO_PATH, {
 const performanceTrackingProto =
   grpc.loadPackageDefinition(packageDefinition).performance_tracking;
 
-// Initialize the dailyProfit variable
+// Initializing the dailyProfit variable to track all calculated tool amounts
 let dailyProfit = 0;
 
-// Create a gRPC server
+// Creating the gRPC server
 const server = new grpc.Server();
 
-// Define the function to track vehicle performance
+// Defining the TrackVehiclePerformance stream handler
 const trackVehiclePerformance = (call) => {
   call.on("data", (tollRequest) => {
     let tollAmount = calculateToll(
@@ -41,7 +43,7 @@ const trackVehiclePerformance = (call) => {
   });
 };
 
-// Define the function to calculate daily profit
+// Defining service for sending daily profit
 const calculateDailyProfit = (call) => {
   // Send the total daily profit back to the client
   call.write({ total_profit: dailyProfit });
@@ -58,7 +60,7 @@ function calculateToll(vehicleType, distanceTraveled) {
   return distanceTraveled * rate;
 }
 
-// Add the services to the gRPC server
+// Add the TollCalculationService services to the server
 server.addService(performanceTrackingProto.TollCalculationService.service, {
   TrackVehiclePerformance: trackVehiclePerformance,
 });
@@ -67,7 +69,7 @@ server.addService(
   { CalculateDailyProfit: calculateDailyProfit }
 );
 
-// Start the gRPC server
+// Binding and starting the server
 server.bindAsync(
   "0.0.0.0:40002",
   grpc.ServerCredentials.createInsecure(),
