@@ -62,9 +62,6 @@ document.addEventListener("DOMContentLoaded", function () {
       distance_traveled: distanceTraveled,
     };
 
-    // Log the TollRequest to the console
-    console.log("TollRequest:", tollRequest);
-
     // Make an HTTP POST request to the server to calculate toll
     fetch("/api/track-vehicle-performance", {
       method: "POST",
@@ -77,9 +74,6 @@ document.addEventListener("DOMContentLoaded", function () {
         return response.json();
       })
       .then(function (data) {
-        // Log the TollResponse to the console
-        console.log("TollResponse:", data);
-
         // Display the calculated toll_amount in the result section
         const tollAmountElement = document.getElementById("tollAmount");
         tollAmountElement.textContent = data.toll_amount;
