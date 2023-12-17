@@ -14,7 +14,7 @@
   </head>
   <body>
     <div class="container">
-      <h1 class="text-center mt-5">M50 Traffic Management System</h1>
+      <h1 class="text-center mt-5">🏎️ M50 Traffic Management System 🏎️</h1>
 
       <!-- Get Weather - BUTTON -->
       <div class="mt-4">
@@ -71,7 +71,7 @@
         </table>
       </div>
 
-      <!-- Get Incident - BUTTON -->
+      <!-- Get Live Incidents - BUTTON -->
       <div class="mt-4">
         <button id="incidentAlertsButton" class="btn btn-primary w-100">
           Get Live Incidents
@@ -94,9 +94,10 @@
         </table>
       </div>
 
-      <!-- Toll System and Profit - BUTTONS -->
+      <!-- Toll System and Total Profit - BUTTONS -->
       <div class="row mt-4">
         <div class="col-6 pe-1">
+          <!-- Toll System - BUTTONS -->
           <button id="tollSystemButton" class="btn btn-primary w-100">
             Toll System
           </button>
@@ -106,10 +107,10 @@
                 <label for="vehicleType" class="form-label">Vehicle Type</label>
                 <select class="form-select" id="vehicleType" required>
                   <option value="">Choose...</option>
-                  <option value="auto">Auto</option>
-                  <option value="motorbike">Motorbike</option>
-                  <option value="bus">Bus</option>
-                  <option value="truck">Truck</option>
+                  <option value="auto">🚗 Auto</option>
+                  <option value="motorbike">🏍️ Motorbike</option>
+                  <option value="bus">🚌 Bus</option>
+                  <option value="truck">🚚 Truck</option>
                 </select>
               </div>
               <div class="mb-3">
@@ -133,8 +134,11 @@
           </div>
         </div>
         <div class="col-6 ps-1">
-          <button id="profitButton" class="btn btn-danger w-100">Profit</button>
-          <!-- Daily Profit Section -->
+          <!-- Total Profit - BUTTONS -->
+          <button id="profitButton" class="btn btn-danger w-100">
+            Total Profit
+          </button>
+          <!-- Daily Profit - TABLE -->
           <div
             id="dailyProfitSection"
             class="w-100 mt-3 d-flex align-items-center"
@@ -146,7 +150,7 @@
               style="display: none"
             >
               <div id="dailyProfitData">
-                <!-- Daily Profit data will be inserted here -->
+                <!-- Daily Profit data -->
               </div>
             </div>
           </div>

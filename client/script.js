@@ -1,4 +1,4 @@
-// Wait until DOM Content is loaded before proceeding with the whole script
+// Wait until DOM Content is loaded before proceeding with the script
 document.addEventListener("DOMContentLoaded", function () {
   // Get the "Get Weather Update", "Get Live Incidents", "Toll System," and "Profit" buttons based on their IDs
   const weatherUpdateBtn = document.getElementById("weatherUpdateButton");
@@ -19,10 +19,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Add event listener based on click on the "Get Live Incidents"
   incidentAlertsBtn.addEventListener("click", function () {
+    // Connection to start receiving live alerts
     subscribeToIncidentAlerts();
   });
 
-  // Function definition to fetch weather data
+  // Function definition to fetch weather data from the server
   function fetchWeatherData() {
     console.log("Fetching weather data...");
     // Fetch from the weather API
@@ -129,7 +130,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("dailyProfitTable").style.display = "block";
 
     // Log the ProfitResponse
-    console.log("ProfitResponse:", dailyProfit);
+    console.log("ProfitResponse:", dailyProfit); // DEBUG
   });
 
   // Function definition to fetch air quality data
@@ -142,6 +143,7 @@ document.addEventListener("DOMContentLoaded", function () {
       })
       .then(function (data) {
         console.log("Air quality data received:", data);
+        // Display the data
         displayAirQualityData(data);
       })
       .catch(function (error) {
@@ -149,21 +151,25 @@ document.addEventListener("DOMContentLoaded", function () {
       });
   }
 
+  // Function definition to fetch wind data
   function fetchWindData() {
     console.log("Fetching wind data...");
+    // Fetch from the wind API
     fetch("/api/wind-data")
       .then(function (response) {
         return response.json();
       })
       .then(function (data) {
-        console.log("Wind data received:", data);
+        console.log("Wind data received:", data); // DEBUG
+        // Display the data
         displayWindData(data);
       })
       .catch(function (error) {
-        console.error("Error fetching wind data:", error);
+        console.error("Error fetching wind data:", error); // DEBUG
       });
   }
 
+  // Function definition to display the fetched data into the index.html
   function displayWeatherData(data) {
     const { date, time, temperature, weather } = data;
     let row = `<tr>
@@ -176,6 +182,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("weatherTable").style.display = "block";
   }
 
+  // Function definition to display the fetched data into the index.html
   function displayAirQualityData(data) {
     const { date, time, quality, message } = data;
     const airQualityDataElem = document.getElementById("airQualityData");
@@ -189,6 +196,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("airQualityTable").style.display = "block";
   }
 
+  // Function definition to display the fetched data into the index.html
   function displayWindData(data) {
     const { date, time, speed, direction } = data;
     const windDataElem = document.getElementById("windData");
@@ -202,7 +210,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("windDataTable").style.display = "block";
   }
 
-  // Function definition to subscribe to incident alerts
+  // Function definition to subscribe to incident alerts and receive the incidents
   function subscribeToIncidentAlerts() {
     console.log("Subscribing to Incident Alerts...");
 
@@ -216,11 +224,13 @@ document.addEventListener("DOMContentLoaded", function () {
     const eventSource = new EventSource("/api/incidents");
 
     eventSource.onopen = function (event) {
+      // Callback for when the connection to the server is opened
       console.log("EventSource opened:", event);
     };
 
     eventSource.onmessage = function (event) {
-      console.log("Received SSE message:", event.data);
+      // Callback for when a message is received
+      console.log("Received SSE message:", event.data); // DEBUG
       try {
         const incident = JSON.parse(event.data);
         const row = `
@@ -237,14 +247,15 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     eventSource.onerror = function (error) {
+      // Callback for when an error happen with the event source connection
       error.preventDefault();
-      console.log("No Incident Detected (error prevented)", error);
+      console.log("No Incident Detected (error prevented)", error); // DEBUG
       eventSource.close();
     };
 
     eventSource.onclose = function () {
-      console.log("EventSource connection closed.");
-      console.log("No Incident Detected");
+      console.log("EventSource connection closed."); // DEBUG
+      console.log("No Incident Detected"); // DEBUG
     };
   }
 });

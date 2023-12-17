@@ -27,7 +27,7 @@ server.addService(weatherProto.WeatherForecastingService.service, {
       date: new Date().toLocaleDateString(),
       time: new Date().toLocaleTimeString(),
       temperature: Math.floor(Math.random() * 35) - 5, // Random temperature
-      weather: "Sunny", // Static weather passsed
+      weather: "☀️ Sunny", // Static weather passsed
     };
     callback(null, response);
   },
@@ -39,7 +39,7 @@ server.addService(weatherProto.WeatherForecastingService.service, {
       date: new Date().toLocaleDateString(),
       time: new Date().toLocaleTimeString(),
       quality: Math.floor(Math.random() * 500), // Random air quality index
-      message: "Good", // Static message passsed
+      message: "🟢 Good", // Static message passsed
     };
     callback(null, response);
   },
@@ -51,7 +51,7 @@ server.addService(weatherProto.WeatherForecastingService.service, {
       date: new Date().toLocaleDateString(),
       time: new Date().toLocaleTimeString(),
       speed: Math.floor(Math.random() * 100), // Random wind speed
-      direction: "North",
+      direction: "💨 North",
     };
     callback(null, response);
   },

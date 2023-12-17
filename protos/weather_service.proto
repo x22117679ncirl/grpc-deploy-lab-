@@ -2,19 +2,19 @@ syntax = "proto3";
 
 package weather;
 
-// Weather forecasting service
+// WeatherForecastingService provides current weather conditions
 service WeatherForecastingService {
-  // Returns current weather updates
+  // GetCurrentWeather provides the current weather update for a specified location
   rpc GetCurrentWeather(WeatherRequest) returns (WeatherResponse) {}
 
-  // Returns air quality index
+  // GetAirQuality provides the current air quality index for a specified location
   rpc GetAirQuality(AirQualityRequest) returns (AirQualityResponse) {}
 
-  // Returns wind data
+  // GetWindData provides the current wind conditions for a specified location
   rpc GetWindData(WindDataRequest) returns (WindDataResponse) {}
 }
 
-// Request for weather updates
+// Request for weather updates on a specific location
 message WeatherRequest {
   string location = 1;
 }
@@ -27,7 +27,7 @@ message WeatherResponse {
   string weather = 4;
 }
 
-// Request for air quality
+// Request for air quality on a specific location
 message AirQualityRequest {
   string location = 1;
 }
@@ -40,7 +40,7 @@ message AirQualityResponse {
   string message = 4;
 }
 
-// Request for wind data
+// Request for wind data on a specific location
 message WindDataRequest {
   string location = 1;
 }

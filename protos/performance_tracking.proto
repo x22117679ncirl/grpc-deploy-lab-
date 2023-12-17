@@ -2,27 +2,35 @@ syntax = "proto3";
 
 package performance_tracking;
 
+// TollCalculationService processes vehicle tolls and tracks vehicle toll payment
 service TollCalculationService {
+  // TrackVehiclePerformance processes a stream of vehicle tolls and returns a stream of toll responses
   rpc TrackVehiclePerformance (stream TollRequest) returns (stream TollResponse);
 }
 
+// DailyProfitCalculationService provides a service to calculate the total daily profit from tolls
 service DailyProfitCalculationService {
+  // CalculateDailyProfit processes payment responses and calculates the total daily profit
   rpc CalculateDailyProfit (stream VehiclePaymentResponse) returns (ProfitResponse);
 }
 
+// Defines the structure for a vehicle's toll calculation request
 message TollRequest {
   string vehicle_type = 1;
   double distance_traveled = 2;
 }
 
+// Returns the calculated toll amount for a vehicle
 message TollResponse {
   double toll_amount = 1;
 }
 
+// Records a vehicle's toll payment amount
 message VehiclePaymentResponse {
   double toll_amount = 1;
 }
 
+// Summarizes the total profit made from tolls
 message ProfitResponse {
   double total_profit = 1;
 }

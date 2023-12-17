@@ -22,19 +22,19 @@ let incidents = [
     date: new Date().toLocaleDateString(),
     time: "08:00",
     motorwaySection: "M50-Northbound",
-    description: "Vehicle breakdown at Junction 5",
+    description: "🚗🔧 Vehicle breakdown at Junction 5",
   },
   {
     date: new Date().toLocaleDateString(),
     time: "08:15",
     motorwaySection: "M50-Southbound",
-    description: "Traffic congestion near Junction 6",
+    description: "⚠️ Traffic congestion near Junction 6",
   },
   {
     date: new Date().toLocaleDateString(),
     time: "08:30",
     motorwaySection: "M50-Eastbound",
-    description: "Accident at Junction 7 - Emergency services on site",
+    description: "💥🚗 Accident at Junction 7 - Emergency services on site",
   },
 ];
 

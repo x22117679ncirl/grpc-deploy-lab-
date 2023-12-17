@@ -2,12 +2,13 @@ syntax = "proto3";
 
 package incident;
 
-// Incident alert service
+// IncidentAlertService provides a stream of current incidents on a motorway section
 service IncidentAlertService {
+  // RPC to stream the current incidents based on a given request with location
   rpc GetCurrentIncident(IncidentRequest) returns (stream IncidentResponse) {}
 }
 
-// Request for incident updates
+// Request for incident updates on a specific location
 message IncidentRequest {
   string location = 1;
 }
