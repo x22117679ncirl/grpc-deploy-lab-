@@ -99,7 +99,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             // Display the calculated toll_amount in the result section
             const tollAmountElement = document.getElementById("tollAmount");
-            tollAmountElement.textContent = responseData.toll_amount;
+            tollAmountElement.textContent = "€" + responseData.toll_amount;
             document.getElementById("tollResult").style.display = "block";
 
             // Log the VehiclePaymentResponse
