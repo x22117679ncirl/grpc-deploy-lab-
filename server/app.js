@@ -84,7 +84,7 @@ app.get("/api/weather", (req, res) => {
   weatherClient.GetCurrentWeather({}, (error, response) => {
     if (error) {
       // In case of a gRPC error, respond with a server error
-      res.status(500).send("Error fetching weather data");
+      res.status(500).send("Error fetching weather data.");
     } else {
       // On success send the weather data as JSON
       res.json(response);
@@ -96,7 +96,7 @@ app.get("/api/weather", (req, res) => {
 app.get("/api/air-quality", (req, res) => {
   weatherClient.GetAirQuality({}, (error, response) => {
     if (error) {
-      res.status(500).send("Error fetching air quality data");
+      res.status(500).send("Error fetching air quality data.");
     } else {
       res.json(response);
     }
@@ -107,7 +107,7 @@ app.get("/api/air-quality", (req, res) => {
 app.get("/api/wind-data", (req, res) => {
   weatherClient.GetWindData({}, (error, response) => {
     if (error) {
-      res.status(500).send("Error fetching wind data");
+      res.status(500).send("Error fetching wind data.");
     } else {
       res.json(response);
     }
@@ -138,7 +138,7 @@ app.get("/api/incidents", (req, res) => {
   });
 
   call.on("error", (error) => {
-    console.error("Error in incident stream:", error);
+    console.error("Error in incident stream.", error);
     res.status(500).end();
   });
 });
@@ -162,6 +162,11 @@ app.post("/api/track-vehicle-performance", (req, res) => {
 
   call.on("end", () => {
     res.end();
+  });
+
+  call.on("error", (error) => {
+    console.error("Error in tracking vehicle performance.", error);
+    res.status(500).send("Error in performance tracking.");
   });
 });
 
